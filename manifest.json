@@ -1,0 +1,169 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.22/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.22",
+  "version": "1.0.0",
+  "id": "6a400915-dad1-4d85-98c0-6b2d204056c6",
+
+  "localizationInfo": {
+    "defaultLanguageTag": "fr-fr"
+  },
+
+  "developer": {
+    "name": "CERT / BDFINT",
+    "websiteUrl": "https://www.contoso.com/aide",
+    "privacyUrl": "https://www.contoso.com/confidentialite",
+    "termsOfUseUrl": "https://www.contoso.com/conditions"
+  },
+
+  "name": {
+    "short": "Mail suspect 🦔",
+    "full": "Signalement de message suspect – CERT"
+  },
+
+  "description": {
+    "short": "Signaler les courriels suspects ou de phishing via un complément de signalement.",
+    "full": "Ce complément permet de signaler facilement les courriels indésirables ou frauduleux au CERT."
+  },
+
+  "icons": {
+    "outline": "assets/icon-64.png",
+    "color": "assets/icon-128.png"
+  },
+
+  "accentColor": "#230201",
+
+  "validDomains": [
+    "https://www.contoso.com"
+  ],
+
+  "showLoadingIndicator": false,
+  "isFullScreen": false,
+  "defaultBlockUntilAdminAction": false,
+
+  "authorization": {
+    "permissions": {
+      "resourceSpecific": [
+        {
+          "name": "MailboxItem.ReadWrite.User",
+          "type": "Delegated"
+        }
+      ]
+    }
+  },
+
+  "extensions": [
+    {
+      "requirements": {
+        "capabilities": [
+          {
+            "name": "Mailbox",
+            "minVersion": "1.14"
+          }
+        ],
+        "scopes": [
+          "mail"
+        ]
+      },
+
+      "runtimes": [
+        {
+          "requirements": {
+            "capabilities": [
+              {
+                "name": "Mailbox",
+                "minVersion": "1.14"
+              }
+            ],
+            "formFactors": [
+              "desktop"
+            ]
+          },
+
+          "id": "runtime_1",
+          "type": "general",
+
+          "code": {
+            "page": "https://localhost:3000/spamreporting.html",
+            "script": "https://localhost:3000/spamreporting.js"
+          },
+
+          "lifetime": "short",
+
+          "actions": [
+            {
+              "id": "onSpamReport",
+              "type": "executeFunction",
+              "multiselect": false,
+              "supportsNoItemContext": false
+            }
+          ]
+        }
+      ],
+
+      "ribbons": [
+        {
+          "contexts": [
+            "spamReportingOverride"
+          ],
+
+          "tabs": [],
+
+          "fixedControls": [
+            {
+              "id": "spamReportingButton",
+              "type": "button",
+              "label": "Signaler un message suspect",
+              "enabled": false,
+
+              "icons": [
+                {
+                  "size": 16,
+                  "url": "https://localhost:3000/assets/sonic-16.png"
+                },
+                {
+                  "size": 32,
+                  "url": "https://localhost:3000/assets/sonic-32.png"
+                },
+                {
+                  "size": 80,
+                  "url": "https://localhost:3000/assets/sonic-80.png"
+                }
+              ],
+
+              "supertip": {
+                "title": "Signaler un message suspect",
+                "description": "Signaler un courriel indésirable ou frauduleux au CERT."
+              },
+
+              "actionId": "onSpamReport"
+            }
+          ],
+
+          "spamPreProcessingDialog": {
+            "title": "Signalement de message suspect",
+            "description": "Merci pour votre contribution à la sécurité.",
+
+            "spamNeverShowAgainOption": false,
+
+            "spamReportingOptions": {
+              "title": "Pourquoi signalez-vous ce message ?",
+              "options": [
+                "Courriel indésirable (spam).",
+                "Tentative d’hameçonnage (phishing).",
+                "Je ne suis pas certain de la légitimité de ce message."
+              ],
+              "type": "checkbox"
+            },
+
+            "spamFreeTextSectionTitle": "Informations complémentaires (facultatif) :",
+
+            "spamMoreInfo": {
+              "text": "Aide sur le signalement des messages suspects",
+              "url": "https://www.contoso.com/signalement"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

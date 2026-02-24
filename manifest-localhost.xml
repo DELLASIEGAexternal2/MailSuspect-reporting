@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+          xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+          xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+          xsi:type="MailApp">
+
+	<Id>942c5096-e075-4dd3-b5c8-dcaeee5c8e6a</Id>
+	<Version>1.0.0</Version>
+
+	<ProviderName>PS</ProviderName>
+
+	<!-- Langue par défaut -->
+	<DefaultLocale>fr-FR</DefaultLocale>
+
+	<DisplayName DefaultValue="Mail suspect 🦔 – CERT"/>
+	<Description DefaultValue="Signalement de courriels suspects vers le CERT."/>
+
+	<IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
+	<HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
+
+	<SupportUrl DefaultValue="https://learn.microsoft.com/office/dev/add-ins/outlook/spam-reporting" />
+
+	<AppDomains>
+		<AppDomain>https://officedev.github.io</AppDomain>
+	</AppDomains>
+
+	<Hosts>
+		<Host Name="Mailbox"/>
+	</Hosts>
+
+	<Requirements>
+		<Sets>
+			<Set Name="Mailbox" MinVersion="1.1"/>
+		</Sets>
+	</Requirements>
+
+	<FormSettings>
+		<Form xsi:type="ItemRead">
+			<DesktopSettings>
+				<SourceLocation DefaultValue="https://localhost:3000/spamreporting.html"/>
+				<RequestedHeight>250</RequestedHeight>
+			</DesktopSettings>
+		</Form>
+	</FormSettings>
+
+	<Permissions>ReadItem</Permissions>
+
+	<Rule xsi:type="RuleCollection" Mode="Or">
+		<Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+	</Rule>
+
+	<DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+	<VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+		<VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+
+			<Requirements>
+				<bt:Sets DefaultMinVersion="1.13">
+					<bt:Set Name="Mailbox" MinVersion="1.3"/>
+				</bt:Sets>
+			</Requirements>
+
+			<Hosts>
+				<Host xsi:type="MailHost">
+					<Runtimes>
+						<Runtime resid="WebViewRuntime.Url">
+							<Override type="javascript" resid="JSRuntime.Url"/>
+						</Runtime>
+					</Runtimes>
+
+					<DesktopFormFactor>
+						<FunctionFile resid="WebViewRuntime.Url"/>
+
+						<ExtensionPoint xsi:type="ReportPhishingCommandSurface">
+							<ReportPhishingCustomization>
+
+								<!-- Bouton du ruban -->
+								<Control xsi:type="Button" id="spamReportingButton">
+									<Label resid="spamButton.Label"/>
+									<Supertip>
+										<Title resid="spamButton.Label"/>
+										<Description resid="spamSuperTip.Text"/>
+									</Supertip>
+									<Icon>
+										<bt:Image size="16" resid="Icon.16x16"/>
+										<bt:Image size="32" resid="Icon.32x32"/>
+										<bt:Image size="80" resid="Icon.80x80"/>
+									</Icon>
+									<Action xsi:type="ExecuteFunction">
+										<FunctionName>onSpamReport</FunctionName>
+									</Action>
+								</Control>
+
+								<!-- Fenêtre de pré-signalement * -->
+								<PreProcessingDialog>
+									<Title resid="PreProcessingDialog.Label"/>
+									<Description resid="PreProcessingDialog.Text"/>
+
+									<ReportingOptions>
+										<Title resid="OptionsTitle.Label"/>
+										<Option resid="Option1.Label"/>
+										<Option resid="Option2.Label"/>
+										<Option resid="Option3.Label"/>
+									</ReportingOptions>
+
+									<FreeTextLabel resid="FreeText.Label"/>
+
+									<MoreInfo>
+										<MoreInfoText resid="MoreInfo.Label"/>
+										<MoreInfoUrl resid="MoreInfo.Url"/>
+									</MoreInfo>
+								</PreProcessingDialog>
+
+								<SourceLocation resid="WebViewRuntime.Url"/>
+
+							</ReportPhishingCustomization>
+						</ExtensionPoint>
+					</DesktopFormFactor>
+				</Host>
+			</Hosts>
+
+			<Resources>
+				<bt:Images>
+					<bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/icon-16.png"/>
+					<bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/icon-32.png"/>
+					<bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon-80.png"/>
+				</bt:Images>
+
+				<bt:Urls>
+					<bt:Url id="WebViewRuntime.Url" DefaultValue="https://localhost:3000/spamreporting.html"/>
+					<bt:Url id="JSRuntime.Url" DefaultValue="https://localhost:3000/spamreporting.js"/>
+					<bt:Url id="MoreInfo.Url" DefaultValue="https://learn.microsoft.com/office/dev/add-ins/outlook/spam-reporting"/>
+				</bt:Urls>
+
+				<bt:ShortStrings>
+					<bt:String id="spamButton.Label" DefaultValue="Hérisson 🦔 BDFINT"/>
+					<bt:String id="PreProcessingDialog.Label" DefaultValue="Signalement de message suspect"/>
+					<bt:String id="OptionsTitle.Label" DefaultValue="Pourquoi signalez-vous ce message ?"/>
+					<bt:String id="FreeText.Label" DefaultValue="Informations complémentaires (facultatif) :"/>
+					<bt:String id="MoreInfo.Label" DefaultValue="Documentation Aide !"/>
+					<bt:String id="Option1.Label" DefaultValue="Courriel indésirable (spam)."/>
+					<bt:String id="Option2.Label" DefaultValue="Tentative d’hameçonnage."/>
+					<bt:String id="Option3.Label" DefaultValue="Je ne suis pas certain de la légitimité de ce message."/>
+				</bt:ShortStrings>
+
+				<bt:LongStrings>
+					<bt:String id="spamSuperTip.Text" DefaultValue="Hérisson 🦔  "/>
+					<bt:String id="PreProcessingDialog.Text" DefaultValue="Merci pour votre contribution à la sécurité."/>
+				</bt:LongStrings>
+
+			</Resources>
+		</VersionOverrides>
+	</VersionOverrides>
+</OfficeApp>
