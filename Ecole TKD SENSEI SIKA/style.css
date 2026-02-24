@@ -1,1 +1,95 @@
 
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+header {
+    background: #111;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    display: block;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav li {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hero {
+    height: 500px;
+    background: url('https://images.unsplash.com/photo-1551806235-6696d0d5c06f') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    padding-left: 80px;
+}
+
+.hero-text h1 {
+    font-size: 60px;
+    color: black;
+    font-weight: 900;
+}
+
+.hero-text span {
+    font-size: 30px;
+    color: gray;
+}
+
+button {
+    padding: 15px 30px;
+    background: black;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.gallery {
+    display: flex;
+    gap: 10px;
+    padding: 40px 80px;
+}
+
+.img-box {
+    flex: 1;
+    height: 200px;
+    background: #ccc;
+}
+
+.info {
+    display: flex;
+    gap: 40px;
+    padding: 40px 80px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    flex: 1;
+}
+
+footer {
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
